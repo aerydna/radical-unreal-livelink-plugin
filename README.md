@@ -1,4 +1,4 @@
-# Radical <-> Unreal Live Link Remap Plugin
+# Radical Live <-> Unreal Live Link Plugin
 
 This plugin contains retargeting assets for converting animation output from RADiCAL Studio to an Unreal Engine editor session. It will receive data from a local RADiCAL Studio session, either on the same computer or over the local network.
 

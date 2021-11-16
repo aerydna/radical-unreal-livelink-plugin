@@ -18,7 +18,6 @@ Plugins/
 # Compiled Dynamic libraries
 *.so
 *.dylib
-*.dll
 
 # Fortran module files
 *.mod
@@ -30,7 +29,6 @@ Plugins/
 *.lib
 
 # Executables
-*.exe
 *.out
 *.app
 *.ipa

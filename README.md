@@ -82,9 +82,14 @@ Next, we will run the command with the ID from the first character in the first 
 
 We now have LiveLink sources running in the background, time to play them in Unreal. In your Unreal Project, open the LiveLink window, and in `Sources` -> `Message Bus Sources` you should see the two RadicalLiveLink souces we created. Select both so you see them in the `source Type` list.
 
-For every character you want to add its own animation source, you will have to create a duplicate of the main character blueprint and the animation blueprint corresponding to it. In our example (the sample Unreal project we provide), we will create a duplicate of the `BP_RADiCAL` character blueprint and the `AnimBP_RADiCAL_3-1` animation blueprint located in the `RADiCAL_Mannequin` folder. After creating the duplicate files, in our example `BP_RADiCAL_second` and `AnimBP_RADiCAL_3-1_2` double click on the new character blueprint, select the `SkeletalMesh` in the `Components` tab, and in the `Details` panel on the right, find the `Animation` tab, and select the duplicated animation in the `Anim Class` dropdown. (AnimBP_RADiCAL_3-1_2_C n our example)
+For every character you want to add its own animation source, you will have to create a duplicate of the main character blueprint and the animation blueprint corresponding to it. In our example (the sample Unreal project we provide), we will create a duplicate of the `BP_RADiCAL` character blueprint and the `AnimBP_RADiCAL_3-1` animation blueprint located in the `RADiCAL_Mannequin` folder. After creating the duplicate files, in our example `BP_RADiCAL_second` and `AnimBP_RADiCAL_3-1_2` double click on the new character blueprint, select the `SkeletalMesh` in the `Components` tab, and in the `Details` panel on the right, find the `Animation` tab, and select the duplicated animation in the `Anim Class` dropdown. (AnimBP_RADiCAL_3-1_2_C in our example)
+
+![Char_blueprint](https://user-images.githubusercontent.com/7143949/144418700-73b5b65c-5cba-473d-95be-b42dd35eb139.png)
 
 Next double click the Animation blueprint, go to the `AnimGraph` to the `Live Link Pose` node, and select from the dropdown one of the available sources. Make sure in the `Details` panel on the right, `Retarget Asset` dropdown has the `RadToRadRemapAsset` selected. You should now see the motion applied to your character.
+
+![anim_blueprint](https://user-images.githubusercontent.com/7143949/144418738-678ba84f-efb4-4c88-8a30-139f56a9f3a9.png)
+
 
 Open the other Animation blueprint and, in the `Live Link Pose` node, select the other source in the `Live Link Subject Name` dropdown. Now both characters will have their corresponding motion data applied to them.
 

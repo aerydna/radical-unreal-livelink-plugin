@@ -35,7 +35,7 @@ The simulation data stream is made available to allow you to test the integratio
 
    Replace ```<serverUrl>``` get this from WP. // TODO: add location in wordpress
 
-   Replace ```<authToken>``` get this from WP. // TODO: add link in wordpress 
+   Replace ```<authToken>``` get this from WP. https://getrad.co/my-account/account-key-page/
 
    Replace ```<roomId>``` with the room name auto-generated when you started the RADiCAL simulation stream. 
 

@@ -30,8 +30,8 @@ The simulation data stream is made available to allow you to test the integratio
 
 2. You are now in your “terminal” that shows you’re inside the `RADiCAL_UELiveLinkClient` folder.
 
-3. Type the following command: ```.\RADiCAL_UELiveLinkClient.exe ––roomId <room_id>```  
-```.\RADiCAL_UELiveLinkClient.exe --serverUrl wss://live-room-handler.live.k8s.getrad.co --roomId 1646309315kFOSBSNJ --authToken 6JS3HSSFGRwkdC4Ekwq0EFjwCjjpXt8xZY8MIil7RXY%3D --playerId Guest_112```
+3. Type the following command: 
+```.\RADiCAL_UELiveLinkClient.exe --serverUrl <serverUrl> --roomId <roomId> --authToken <authToken> --playerId <playerId>```
 
    Replace ```<serverUrl>``` get this from WP. // TODO: add location in wordpress
 

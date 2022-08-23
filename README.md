@@ -30,9 +30,16 @@ The simulation data stream is made available to allow you to test the integratio
 
 2. You are now in your “terminal” that shows you’re inside the `RADiCAL_UELiveLinkClient` folder.
 
-3. Type the following command: ```.\RADiCAL_UELiveLinkClient.exe ––roomId <room_id>``` 
+3. Type the following command: 
+```.\RADiCAL_UELiveLinkClient.exe --serverUrl <serverUrl> --roomId <roomId> --authToken <authToken> --playerId <playerId>```
 
-   Replace ```<room_id>``` with the room name auto-generated when you started the RADiCAL simulation stream. 
+   Replace ```<serverUrl>``` get this from WP. // TODO: add location in wordpress
+
+   Replace ```<authToken>``` get this from WP. https://getrad.co/my-account/account-key-page/
+
+   Replace ```<roomId>``` with the room name auto-generated when you started the RADiCAL simulation stream. 
+
+   Replace ```<playerId>``` get this from the visualizer, click to open editor, then click on a character
 
 4. Click Enter. The RADiCAL UE Live Link Client will start. 
  

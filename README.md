@@ -12,15 +12,15 @@ The simulation data stream is made available to allow you to test the integratio
 
 ###  Start RADiCAL’s simulation data stream
 
-1. From your web browser, visit RADiCAL’s webpage hosting the simulation stream: https://getrad.co/live-unreal-simulation. 
+1. From your web browser, visit RADiCAL’s webpage, live rooms section: https://getrad.co/live-rooms/
 
    _Note: you may have to log into the RADiCAL website to access this page._
 
-2. Copy and save elsewhere the auto-generated room name (in this example: “simulation_0r2d2”). You will need it later.  
+2. Click to expand the Simulation dropdown. Select either the `Single Player` or `Multiplayer` room, then click `Open Room`, and you will be taken to the `Room details` page. In the lower right corner you will see the `3D Integrations` panel. We will need the `WEBSOCKET URL` and the `ROOM ID`. You can now click the `Enter room` button in the `Audience` panel. 
 
-   _Note: do not change the room name_.
+   _Note: the `Room details` page will remain open in another tab, you can get beck to it in the next step_.
 
-3. Click “Connect”.  After a brief countdown, you will see a simulated motion data scene.  
+3. Click “Connect”.  After the 3D assets are loaded, you will see a simulated motion data scene.  
 
    _Note: you can click `Esc` to exit full-screen mode_.
 
@@ -31,15 +31,19 @@ The simulation data stream is made available to allow you to test the integratio
 2. You are now in your “terminal” that shows you’re inside the `RADiCAL_UELiveLinkClient` folder.
 
 3. Type the following command: 
-```.\RADiCAL_UELiveLinkClient.exe --serverUrl <serverUrl> --roomId <roomId> --authToken <authToken> --playerId <playerId>```
+```.\RADiCAL_UELiveLinkClient.exe --serverUrl <serverUrl> --roomId <roomId> --authToken <authToken> --playerId <playerId> --poseName <live_link_pose_name>(optional)```
 
-   Replace ```<serverUrl>``` get this from WP. // TODO: add location in wordpress
+   Replace ```<serverUrl>``` you can get this from the `Room details` page as described above. Example: https://getrad.co/live/simulation-single/
 
-   Replace ```<authToken>``` get this from WP. https://getrad.co/my-account/account-key-page/
+   Replace ```<authToken>``` you can get this from you RADiCAL account settings: https://getrad.co/my-account/account-key-page/
 
-   Replace ```<roomId>``` with the room name auto-generated when you started the RADiCAL simulation stream. 
+   Replace ```<roomId>``` you can get this from the `Room details` page as described above. Example: https://getrad.co/live/simulation-single/
 
-   Replace ```<playerId>``` get this from the visualizer, click to open editor, then click on a character
+   Replace ```<playerId>``` you can get this from the 3D visualizer in our website, once you've connected to the room. Click the layers shaped button in the bottom bar to open editor, then click on a character. You will see the `playerId` value in the lover left corner, above the `roomId`.
+
+   ```poseName``` is an optional parameter, use it if you want to name the LiveLink source.
+
+   _Note: LiveLink source name has to be unique if you want to use more than one client at a time (if you want to create Sources for multiple charaters at the same time)_
 
 4. Click Enter. The RADiCAL UE Live Link Client will start. 
  
@@ -71,21 +75,9 @@ Because of the difference between the RADiCAL skeleton (which defaults to a T po
 
 RADiCAL Live also supports multiplayer rooms, and we are working on improving the plug-in to make the experience integrated in the Unreal ecosystem. In the meantime we offer a more manual way of inputting our animation data in the Unreal Editor.
 
-Let's first create two animation streams in the same room. On the simulation page:
-https://getrad.co/live-unreal-simulation/
-click to connect the first simulation. Once the character data is playing on the screen, click on the room name in the lower left corner to copy the room name to the clipcoard.
+You can open the multiplayer simulation room here: https://getrad.co/live/simulation-multiplayer/. Follow the same steps as described before, and `Connect` to the simulation room. You should see 3 characters animated.
 
-Open another tab with the simulation webpage and paste the room name from the first connected session. Click connect, and after the 3d assests load you should see two characters in the scene, eatch playing an animation cycle. These animations are streamed to your browser by our websocket server exactly the same way it would stream Live data.
-
-Now you should open two comand line windows (either Command Prompt or Windows PowerShell), and navigate to your project that uses the RADiCAL Unreal plugin, then go inside `/Plugins/radical-unreal-livelink-plugin/RADiCAL_UELiveLinkClient` folder. We need to run the `RADiCAL_UELiveLinkClient.exe` command specifying both the room name we want to connect to and a unique player id for the character we want to receive data for. 
-
-To get the character id, go back to one of the browser windows that shows the simulated streams, and click on a character. You will see the character ID in a box above the room name, in the lower right corner. If you click the other character this id will update. You can click on this box to copy the character ID to the clipboard.
-
-Next, we will run the command with the ID from the first character in the first terminal window we've opened, and we will run it again in the second terminal with the ID from the other character. This will create two LiveLink Message Bus sources, each streaming animation data for its corresponding character. The following example shows the syntax of two commands that would create these sources:
-
-```.\RADiCAL_UELiveLinkClientMulti.exe --roomId simulation_001 --playerId ISlm8srLM9BaBbwzAAAD```
-
-```.\RADiCAL_UELiveLinkClientMulti.exe --roomId simulation_001 --playerId 4u_rVejQPnBhXqAXAAAF```
+Now you should open two comand line windows (either Command Prompt or Windows PowerShell), and follow the steps described in `Enable the RADiCAL UE Live Link Client`, with only the `playerId` and `poseName` changed to reflect the ids from the simulation.
 
 We now have LiveLink sources running in the background, time to play them in Unreal. In your Unreal Project, open the LiveLink window, and in `Sources` -> `Message Bus Sources` you should see the two RadicalLiveLink souces we created. Select both so you see them in the `source Type` list.
 

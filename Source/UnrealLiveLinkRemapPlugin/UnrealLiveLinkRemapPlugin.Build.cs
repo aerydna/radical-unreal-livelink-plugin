@@ -31,6 +31,7 @@ public class UnrealLiveLinkRemapPlugin : ModuleRules
 				"LiveLinkInterface",
 				"LiveLink",
 				"LiveLinkComponents",
+				"LiveLinkAnimationCore",
 			}
 		);
 

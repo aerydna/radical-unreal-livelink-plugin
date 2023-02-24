@@ -1,5 +1,6 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
-
+using System;
+using System.IO;
 using UnrealBuildTool;
 
 public class UnrealLiveLinkRemapPlugin : ModuleRules
@@ -32,6 +33,9 @@ public class UnrealLiveLinkRemapPlugin : ModuleRules
 				"LiveLink",
 				"LiveLinkComponents",
 				"LiveLinkAnimationCore",
+				"RadicalLiveClient",
+				"LevelEditor",
+				"EditorStyle",
 			}
 		);
 
@@ -45,6 +49,10 @@ public class UnrealLiveLinkRemapPlugin : ModuleRules
 				"SlateCore",
 				"LiveLink",
 				"LiveLinkComponents",
+				"UMGEditor",
+				"Blutility",
+				"UMG",
+				"UnrealEd",
 			}
 		);
 

@@ -2,6 +2,7 @@
 
 
 #include "RadToEpicRemapAsset.h"
+#include "LivelinkLibrary/include/RadicalLiveClient.h"
 
 FVector URadToEpicRemapAsset::ConvertRootPosition(FVector LLPosition) const
 {
@@ -39,3 +40,4 @@ FQuat URadToEpicRemapAsset::ConvertBoneRotation(FQuat LLRotation) const
 		LLRotation.W
 	);
 }
+

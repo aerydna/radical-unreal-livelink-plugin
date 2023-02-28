@@ -2,7 +2,7 @@
 
 
 #include "RadToEpicRemapAsset.h"
-#include "LivelinkLibrary/include/RadicalLiveClient.h"
+#include "RadicalLiveClient.h"
 
 FVector URadToEpicRemapAsset::ConvertRootPosition(FVector LLPosition) const
 {

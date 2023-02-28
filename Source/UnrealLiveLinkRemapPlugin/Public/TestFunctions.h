@@ -4,17 +4,17 @@
 
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
-#include "DummyFunctions.generated.h"
+#include "TestFunctions.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class UNREALLIVELINKREMAPPLUGIN_API UDummyFunctions : public UBlueprintFunctionLibrary
+class UNREALLIVELINKREMAPPLUGIN_API UTestFunctions : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 
 public:
-	UFUNCTION(BlueprintCallable, Category = "Dummy")
-	static FString testString(FString _text);
+	UFUNCTION(BlueprintCallable, Category = "RadicalTest")
+	static void testConnectionAndData();
 };

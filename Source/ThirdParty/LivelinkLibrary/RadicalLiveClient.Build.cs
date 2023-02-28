@@ -11,12 +11,16 @@ public class RadicalLiveClient : ModuleRules
 
 		if (Target.Platform == UnrealTargetPlatform.Win64)
 		{
+			PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
+			bUseRTTI = true;
+			bEnableExceptions = true;
+
+            
 			PublicAdditionalLibraries.AddRange(new string[]{
-				Path.Combine(ModuleDirectory, "./RadicalLiveClient.lib"),
-				Path.Combine(ModuleDirectory, "./sioclient.lib"),
-				Path.Combine(ModuleDirectory, "./sioclient_tls.lib")
-		  });
-		PublicIncludePaths.AddRange(new string[] { Path.Combine(ModuleDirectory, "./include") });
+				Path.Combine(ModuleDirectory, "./RadicalLiveClient.lib")
+			});
+
+			PublicIncludePaths.Add(Path.Combine(ModuleDirectory, "include"));
 		}
 	}
 }

@@ -7,12 +7,14 @@ public class UnrealLiveLinkRemapPlugin : ModuleRules
 {
 	public UnrealLiveLinkRemapPlugin(ReadOnlyTargetRules Target) : base(Target)
 	{
-		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
+		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
+		bUseRTTI = true;
+		bEnableExceptions = true;
 
 		PublicIncludePaths.AddRange(
 			new string[]
 			{
-				// ... add public include paths required here ...
+				//Path.Combine(ModuleDirectory, "RadicalLiveLibraryPublic")
 			}
 		);
 
@@ -20,7 +22,7 @@ public class UnrealLiveLinkRemapPlugin : ModuleRules
 		PrivateIncludePaths.AddRange(
 			new string[]
 			{
-				// ... add other private include paths required here ...
+				Path.Combine(ModuleDirectory, "Private/include")
 			}
 		);
 
@@ -33,12 +35,11 @@ public class UnrealLiveLinkRemapPlugin : ModuleRules
 				"LiveLink",
 				"LiveLinkComponents",
 				"LiveLinkAnimationCore",
-				"RadicalLiveClient",
+				"RadicalSocketIOLib", "Json",
 				"LevelEditor",
 				"EditorStyle",
 			}
 		);
-
 
 		PrivateDependencyModuleNames.AddRange(
 			new string[]
@@ -49,13 +50,13 @@ public class UnrealLiveLinkRemapPlugin : ModuleRules
 				"SlateCore",
 				"LiveLink",
 				"LiveLinkComponents",
+				"RadicalLiveClient",
 				"UMGEditor",
 				"Blutility",
 				"UMG",
 				"UnrealEd",
 			}
 		);
-
 
 		DynamicallyLoadedModuleNames.AddRange(
 			new string[]

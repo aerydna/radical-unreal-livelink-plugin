@@ -9,11 +9,12 @@
 #include <string>
 #include <memory>
 #include <functional>
+#include <IConnectionManager.h>
 #include <sio_message.h>
 
 namespace rad::live_client
 {
-
+using ConnectionMagerPtr = std::shared_ptr<IConnectionManager>;
 class AudienceImpl;
 
 /**
@@ -28,13 +29,13 @@ class Audience
    * @param userAuthToken - User authentication token which will be used for authenticating the connecting user (you)
    * @param roomId - Room id of the room to connect to
    */
-  Audience(std::string uriString, std::string userAuthToken, std::string roomId, std::string clientLabel = "");
+  Audience(std::string uriString, std::string userAuthToken, std::string roomId, std::string clientLabel = "", ConnectionMagerPtr connectionManager = ConnectionMagerPtr(nullptr));
   ~Audience();
 
   /**
    * @brief Tries to establish the connection to the room handler
    */
-  void Connect(std::function<void(std::string callbackString)> callback = [](std::string _callbackString = "") {});
+  void Connect();
   /**
    * @brief Disconnects from the room handler
    */

@@ -45,12 +45,6 @@ void UTestFunctions::testConnectionAndData()
 	audience.OnData(
 	[](sio::message::ptr data)
 	{
-		static int i = 0;
-		i++;
-		if(i == 30)
-		{
-
-		}
 		UE_LOG(LogTemp, Warning, TEXT("Data recieved"));
 	});
 

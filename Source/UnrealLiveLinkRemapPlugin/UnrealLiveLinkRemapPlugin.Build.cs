@@ -38,6 +38,14 @@ public class UnrealLiveLinkRemapPlugin : ModuleRules
 				"RadicalSocketIOLib", "Json",
 				"LevelEditor",
 				"EditorStyle",
+				"EditorSubsystem",
+				"Slate",
+				"SlateCore",
+				"UnrealEd",
+				"Blutility",
+				"UMG",
+				"UMGEditor",
+				"Projects"
 			}
 		);
 

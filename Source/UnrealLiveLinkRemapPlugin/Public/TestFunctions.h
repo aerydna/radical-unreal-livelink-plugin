@@ -13,8 +13,8 @@ UCLASS()
 class UNREALLIVELINKREMAPPLUGIN_API UTestFunctions : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
+public:	
 
-public:
 	UFUNCTION(BlueprintCallable, Category = "RadicalTest")
 	static void testConnectionAndData();
 };

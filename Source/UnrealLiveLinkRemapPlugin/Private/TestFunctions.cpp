@@ -7,7 +7,6 @@
 
 
 using namespace rad::live_client;
-
 void UTestFunctions::testConnectionAndData()
 {
 	static int i = 0;

@@ -43,7 +43,7 @@ public:
 
 	void setOnClose(const rad::live_client::CloseListener& cb) override
 	{
-		_client.set_close_listener([&cb](sio::client::close_reason inReason)
+		_client.set_close_listener([cb](sio::client::close_reason inReason)
 			{
 				auto reason = inReason == sio::client::close_reason::close_reason_normal ?
 					rad::live_client::CloseReason::normal :

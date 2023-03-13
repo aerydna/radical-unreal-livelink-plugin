@@ -31,6 +31,8 @@ public class UnrealLiveLinkRemapPlugin : ModuleRules
 			new string[]
 			{
 				"Core",
+				"AnimGraphRuntime",
+				"AnimGraph",
 				"LiveLinkInterface",
 				"LiveLink",
 				"LiveLinkComponents",
@@ -44,6 +46,7 @@ public class UnrealLiveLinkRemapPlugin : ModuleRules
 				"UnrealEd",
 				"Blutility",
 				"UMG",
+				"BlueprintGraph",
 				"UMGEditor",
 				"Projects"
 			}

@@ -22,7 +22,8 @@ public:
 
 	TSharedPtr<FUICommandInfo> TestCommand;
 	TSharedPtr<FUICommandInfo> MenuTestCommand;
-	TSharedPtr<FUICommandInfo> SubmenuTestCommand01;
+	TSharedPtr<FUICommandInfo> RunRADiCALLiveWidget;
 	TSharedPtr<FUICommandInfo> SubmenuTestCommand02;
 	TSharedPtr<FUICommandInfo> SubmenuTestCommand03;
+	TSharedPtr<FUICommandInfo> UserGuide;
 };

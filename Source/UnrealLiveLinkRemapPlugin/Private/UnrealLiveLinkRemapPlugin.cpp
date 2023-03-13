@@ -28,8 +28,8 @@ void FUnrealLiveLinkRemapPluginModule::StartupModule()
 		FExecuteAction::CreateRaw(this, &FUnrealLiveLinkRemapPluginModule::TestAction)
 	);
 	PluginCommands->MapAction(
-		FRadicalPluginEditorCommands::Get().SubmenuTestCommand01,
-		FExecuteAction::CreateLambda([]() {UE_LOG(LogTemp, Warning, TEXT("SUBMENU 01 works!!!")); })
+		FRadicalPluginEditorCommands::Get().RunRADiCALLiveWidget,
+		FExecuteAction::CreateLambda([]() {UE_LOG(LogTemp, Warning, TEXT("RunRadicalLiveWidget works!!!")); })
 	);
 	PluginCommands->MapAction(
 		FRadicalPluginEditorCommands::Get().SubmenuTestCommand02,
@@ -38,6 +38,10 @@ void FUnrealLiveLinkRemapPluginModule::StartupModule()
 	PluginCommands->MapAction(
 		FRadicalPluginEditorCommands::Get().SubmenuTestCommand03,
 		FExecuteAction::CreateLambda([]() {UE_LOG(LogTemp, Warning, TEXT("SUBMENU 03 works!!!")); })
+	);
+	PluginCommands->MapAction(
+		FRadicalPluginEditorCommands::Get().UserGuide,
+		FExecuteAction::CreateLambda([]() {UE_LOG(LogTemp, Warning, TEXT("UserGuide works!!!")); })
 	);
 
 	FLevelEditorModule& LevelEditorModule = FModuleManager::LoadModuleChecked<FLevelEditorModule>("LevelEditor");
@@ -125,9 +129,11 @@ void FUnrealLiveLinkRemapPluginModule::AddMenuEntry(FMenuBuilder& MenuBuilder)
 
 void FUnrealLiveLinkRemapPluginModule::FillSubmenu(FMenuBuilder& MenuBuilder)
 {
-	MenuBuilder.AddMenuEntry(FRadicalPluginEditorCommands::Get().SubmenuTestCommand01);
+	
+	MenuBuilder.AddMenuEntry(FRadicalPluginEditorCommands::Get().RunRADiCALLiveWidget);
 	MenuBuilder.AddMenuEntry(FRadicalPluginEditorCommands::Get().SubmenuTestCommand02);
 	MenuBuilder.AddMenuEntry(FRadicalPluginEditorCommands::Get().SubmenuTestCommand03);
+	MenuBuilder.AddMenuEntry(FRadicalPluginEditorCommands::Get().UserGuide);
 }
 
 
@@ -135,10 +141,13 @@ TSharedRef<SWidget> FUnrealLiveLinkRemapPluginModule::FillComboButton(TSharedPtr
 {
 
 	FMenuBuilder MenuBuilder(true, Commands);
-
-	MenuBuilder.AddMenuEntry(FRadicalPluginEditorCommands::Get().SubmenuTestCommand01);
+	
+	MenuBuilder.AddMenuSeparator(FName(TEXT("RADICAL LIVE")));
+	MenuBuilder.AddMenuEntry(FRadicalPluginEditorCommands::Get().RunRADiCALLiveWidget);
+	MenuBuilder.AddMenuSeparator(FName(TEXT("ABOUT & USER GUIDE")));
 	MenuBuilder.AddMenuEntry(FRadicalPluginEditorCommands::Get().SubmenuTestCommand02);
 	MenuBuilder.AddMenuEntry(FRadicalPluginEditorCommands::Get().SubmenuTestCommand03);
+	MenuBuilder.AddMenuEntry(FRadicalPluginEditorCommands::Get().UserGuide);
 
 	return MenuBuilder.MakeWidget();
 }

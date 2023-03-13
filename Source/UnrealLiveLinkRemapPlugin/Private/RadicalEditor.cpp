@@ -78,14 +78,14 @@ void FAnimNode_Radical::EvaluateSkeletalControl_AnyThread(FComponentSpacePoseCon
 	if (!m.isValid())
 		return;
 	
-	std::map<std::string, int> boneId{
+	std::unordered_map<std::string, int> boneId{
 		{ "root_r", 1 },
 		//{ "LeftUpLegDummy_r", -1 },
 		{ "LeftUpLeg_r", 59 },
 		{ "LeftLeg_r", 60 },
-		{ "LeftFoot_r", 61 },
+		{"LeftFoot_r", 61},
 		//{ "RightUpLegDummy_r", -1 },
-		{ "RightUpLeg_r", 2 },
+		{"RightUpLeg_r", 2},
 		{ "RightLeg_r", 3 },
 		{ "RightFoot_r", 4 },
 		//{ "SpineDummy_r", -1 },
@@ -105,6 +105,35 @@ void FAnimNode_Radical::EvaluateSkeletalControl_AnyThread(FComponentSpacePoseCon
 		{ "LeftArm_r", 10 },
 		{ "LeftForeArm_r", 11 },
 		{ "LeftHand_r", 12 }
+	};
+
+	std::array<std::string, 20> boneOrder{
+		"root_r",
+		//
+		"LeftUpLeg_r",
+		"LeftLeg_r",
+		"LeftFoot_r",
+		//
+		"RightUpLeg_r",
+		"RightLeg_r",
+		"RightFoot_r",
+		//
+		"Spine_r",
+		"Spine1_r",
+		"Spine2_r",
+		//
+		"Neck_r",
+		"Head_r",
+		//
+		"RightShoulder_r",
+		"RightArm_r",
+		"RightForeArm_r",
+		"RightHand_r",
+		//
+		"LeftShoulder_r",
+		"LeftArm_r",
+		"LeftForeArm_r",
+		"LeftHand_r"
 	};
 
 	std::map<std::string, std::string> parent{
@@ -135,22 +164,27 @@ void FAnimNode_Radical::EvaluateSkeletalControl_AnyThread(FComponentSpacePoseCon
 		{ "LeftForeArm_r", "LeftArm_r" },
 		{ "LeftHand_r", "LeftForeArm_r" }
 	};
-	
+
+	//quaternion flip axis
+	auto xMod = quatOptions.flipX ? -1 : 1;
+	auto yMod = quatOptions.flipY ? -1 : 1;
+	auto zMod = quatOptions.flipZ ? -1 : 1;
+	auto wMod = quatOptions.flipW ? -1 : 1;
+#if 1
 	auto rootQ = m.get().root_r;
 	auto rootT = m.get().root_t;
 	auto rootUnrealT = FVector(100 * rootT[0], 100 * rootT[2], 100 * rootT[1]);
-	auto rootUnrealQ = FQuat(rootQ.x, rootQ.y, rootQ.z, rootQ.w);
+	auto rootUnrealQ = FQuat(xMod * rootQ.x, yMod * rootQ.y, zMod * rootQ.z, wMod * rootQ.w);
 	auto rootId = FCompactPoseBoneIndex(boneId["root_r"]);
 	auto rootCSTransform = output.Pose.GetComponentSpaceTransform(rootId);
 	auto rotShift = FQuat::MakeFromEuler(FVector(90, 0, 0));
 	output.Pose.SetComponentSpaceTransform(rootId, FTransform(rotShift * rootUnrealQ, rootUnrealT));
-
+#endif
 	TArray<FBoneTransform> out;
 	if(true)
-	for (auto& j : boneId) {
+	for (auto& jname : boneOrder) {
 		const auto& joints = m.get().joints;
-		const auto& jname = j.first;
-		const auto& jId = j.second;
+		const auto& jId = boneId[jname];
 		//auto streamedJoint = joints.begin();
 		if (joints.find(jname) == joints.end())
 			continue;
@@ -167,15 +201,7 @@ void FAnimNode_Radical::EvaluateSkeletalControl_AnyThread(FComponentSpacePoseCon
 		
 		//method two - should be equivalent
 		auto csTransform = output.Pose.GetComponentSpaceTransform(id);
-
-		//quaternion flip axis
-		auto xMod = quatOptions.flipX ? -1 : 1;
-		auto yMod = quatOptions.flipY ? -1 : 1;
-		auto zMod = quatOptions.flipZ ? -1 : 1;
-		auto wMod = quatOptions.flipW ? -1 : 1;
-		
-
-		auto radTransform = FTransform(FQuat(xMod * jPose.x, yMod * jPose.y, zMod * jPose.z, wMod * jPose.w));
+		auto radTransform = FTransform(rotShift * FQuat(xMod * jPose.x, yMod * jPose.y, zMod * jPose.z, wMod * jPose.w));
 		radTransform = debugTransformPrePost ? debugTransform * radTransform : radTransform * debugTransform;
 		output.Pose.SetComponentSpaceTransform(id, radTransform * local * parentT);
 		

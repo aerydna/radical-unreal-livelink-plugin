@@ -77,88 +77,24 @@ void FAnimNode_Radical::EvaluateSkeletalControl_AnyThread(FComponentSpacePoseCon
 	auto m = radSub->getLastPose(playerID);
 	if (!m.isValid())
 		return;
-	
-	std::unordered_map<std::string, int> boneId{
-		{ "root_r", 1 },
-		//{ "LeftUpLegDummy_r", -1 },
-		{ "LeftUpLeg_r", 59 },
-		{ "LeftLeg_r", 60 },
-		{"LeftFoot_r", 61},
-		//{ "RightUpLegDummy_r", -1 },
-		{"RightUpLeg_r", 2},
-		{ "RightLeg_r", 3 },
-		{ "RightFoot_r", 4 },
-		//{ "SpineDummy_r", -1 },
-		{ "Spine_r", 6 },
-		{ "Spine1_r", 7 },
-		{ "Spine2_r", 8 },
-		//{ "NeckDummy_r", -1 },
-		{ "Neck_r", 57 },
-		{ "Head_r", 58 },
-		//{ "RightShoulderDummy_r", -1 },
-		{ "RightShoulder_r", 33 },
-		{ "RightArm_r", 34 },
-		{ "RightForeArm_r", 35 },
-		{ "RightHand_r", 36 },
-		//{ "LeftShoulderDummy_r", -1 },
-		{ "LeftShoulder_r", 9 },
-		{ "LeftArm_r", 10 },
-		{ "LeftForeArm_r", 11 },
-		{ "LeftHand_r", 12 }
-	};
 
-	std::array<std::string, 20> boneOrder{
-		"root_r",
-		//
-		"LeftUpLeg_r",
-		"LeftLeg_r",
-		"LeftFoot_r",
-		//
-		"RightUpLeg_r",
-		"RightLeg_r",
-		"RightFoot_r",
-		//
-		"Spine_r",
-		"Spine1_r",
-		"Spine2_r",
-		//
-		"Neck_r",
-		"Head_r",
-		//
-		"RightShoulder_r",
-		"RightArm_r",
-		"RightForeArm_r",
-		"RightHand_r",
-		//
-		"LeftShoulder_r",
-		"LeftArm_r",
-		"LeftForeArm_r",
-		"LeftHand_r"
-	};
-
-	std::map<std::string, std::string> parent{
+	static std::map<std::string, std::string> parent{
 		{ "root_r", ""},
-		//
 		{ "LeftUpLeg_r", "root_r" },
 		{ "LeftLeg_r", "LeftUpLeg_r" },
 		{ "LeftFoot_r", "LeftLeg_r" },
-		//
 		{ "RightUpLeg_r", "root_r"},
 		{ "RightLeg_r", "RightUpLeg_r" },
 		{ "RightFoot_r", "RightLeg_r" },
-		//
 		{ "Spine_r", "root_r" },
 		{ "Spine1_r", "Spine_r" },
 		{ "Spine2_r", "Spine1_r" },
-		//
 		{ "Neck_r", "Spine2_r" },
 		{ "Head_r", "Neck_r" },
-		//
 		{ "RightShoulder_r", "Spine2_r" },
 		{ "RightArm_r", "RightShoulder_r" },
 		{ "RightForeArm_r", "RightArm_r" },
 		{ "RightHand_r", "RightForeArm_r" },
-		//
 		{ "LeftShoulder_r", "Spine2_r" },
 		{ "LeftArm_r", "LeftShoulder_r" },
 		{ "LeftForeArm_r", "LeftArm_r" },
@@ -170,44 +106,42 @@ void FAnimNode_Radical::EvaluateSkeletalControl_AnyThread(FComponentSpacePoseCon
 	auto yMod = quatOptions.flipY ? -1 : 1;
 	auto zMod = quatOptions.flipZ ? -1 : 1;
 	auto wMod = quatOptions.flipW ? -1 : 1;
-#if 1
-	auto rootQ = m.get().root_r;
-	auto rootT = m.get().root_t;
-	auto rootUnrealT = FVector(100 * rootT[0], 100 * rootT[2], 100 * rootT[1]);
-	auto rootUnrealQ = FQuat(xMod * rootQ.x, yMod * rootQ.y, zMod * rootQ.z, wMod * rootQ.w);
-	auto rootId = FCompactPoseBoneIndex(boneId["root_r"]);
-	auto rootCSTransform = output.Pose.GetComponentSpaceTransform(rootId);
 	auto rotShift = FQuat::MakeFromEuler(FVector(90, 0, 0));
-	output.Pose.SetComponentSpaceTransform(rootId, FTransform(rotShift * rootUnrealQ, rootUnrealT));
-#endif
-	TArray<FBoneTransform> out;
-	if(true)
+
+	if (boneNameToId.Contains(boneMapping.root)) {
+		//applies root transform
+		auto rootQ = m.get().root_r;
+		auto rootT = m.get().root_t;
+		auto rootUnrealT = FVector(100 * rootT[0], 100 * rootT[2], 100 * rootT[1]);
+		auto rootUnrealQ = FQuat(xMod * rootQ.x, yMod * rootQ.y, zMod * rootQ.z, wMod * rootQ.w);
+		auto rootId = FCompactPoseBoneIndex(boneNameToId[boneMapping.root]);
+		auto rootCSTransform = output.Pose.GetComponentSpaceTransform(rootId);
+		output.Pose.SetComponentSpaceTransform(rootId, FTransform(rotShift * rootUnrealQ, rootUnrealT));
+	}
+
+	//applies per bones transform
 	for (auto& jname : boneOrder) {
+		if (!boneNameToId.Contains(jname))
+			continue;
 		const auto& joints = m.get().joints;
-		const auto& jId = boneId[jname];
+		const auto& jId = boneNameToId[jname];
 		//auto streamedJoint = joints.begin();
-		if (joints.find(jname) == joints.end())
+		if (joints.find(boneToRadName[jname]) == joints.end())
 			continue;
 
 		if (jname == "root_t" || jname == "root_r" || jId < 0)
 			continue;
 		
-		const auto& jPose = joints.at(jname).pose;
+		const auto& jPose = joints.at(boneToRadName[jname]).pose;
 		auto id = FCompactPoseBoneIndex(jId);
 		
-		//method one
-		auto local = output.Pose.GetLocalSpaceTransform(FCompactPoseBoneIndex(id));		
-		auto parentT = output.Pose.GetComponentSpaceTransform(FCompactPoseBoneIndex(boneId[parent[jname]]));
-		
-		//method two - should be equivalent
+		//auto local = output.Pose.GetLocalSpaceTransform(FCompactPoseBoneIndex(id));		
+		//auto parentT = output.Pose.GetComponentSpaceTransform(FCompactPoseBoneIndex(boneId[parent[jname]]));
 		auto csTransform = output.Pose.GetComponentSpaceTransform(id);
 		auto radTransform = FTransform(rotShift * FQuat(xMod * jPose.x, yMod * jPose.y, zMod * jPose.z, wMod * jPose.w));
 		radTransform = debugTransformPrePost ? debugTransform * radTransform : radTransform * debugTransform;
-		output.Pose.SetComponentSpaceTransform(id, radTransform * local * parentT);
-		
-		//out.Add(FBoneTransform(id, radTransform * parentT));
+		output.Pose.SetComponentSpaceTransform(id, radTransform * csTransform);
 	}
-	//output.Pose.SafeSetCSBoneTransforms(out);
 }
 
 bool FAnimNode_Radical::IsValidToEvaluate(const USkeleton* skeleton, const FBoneContainer& requiredBones) {
@@ -221,8 +155,55 @@ void FAnimNode_Radical::InitializeBoneReferences(const FBoneContainer& requiredB
 	for (int16 boneInd = 0; boneInd < ReferenceSkeleton.GetNum(); boneInd++)
 	{
 		auto name = ReferenceSkeleton.GetBoneName(boneInd);
-		boneNameToId[name] = requiredBones.GetPoseBoneIndexForBoneName(name);
+		
+		boneNameToId.Add(name, requiredBones.GetPoseBoneIndexForBoneName(name));
 	}
+
+	boneToRadName = {
+		{ boneMapping.root, "root_r" },
+		{ boneMapping.LeftUpLeg, "LeftUpLeg_r"},
+		{ boneMapping.LeftLeg, "LeftLeg_r" },
+		{ boneMapping.LeftFoot, "LeftFoot_r"},
+		{ boneMapping.RightUpLeg, "RightUpLeg_r"},
+		{ boneMapping.RightLeg, "RightLeg_r" },
+		{ boneMapping.RightFoot, "RightFoot_r" },
+		{ boneMapping.Spine, "Spine_r" },
+		{ boneMapping.Spine1, "Spine1_r" },
+		{ boneMapping.Spine2, "Spine2_r" },
+		{ boneMapping.Neck, "Neck_r" },
+		{ boneMapping.Head, "Head_r" },
+		{ boneMapping.RightShoulder, "RightShoulder_r" },
+		{ boneMapping.RightArm, "RightArm_r" },
+		{ boneMapping.RightForeArm, "RightForeArm_r" },
+		{ boneMapping.RightHand, "RightHand_r" },
+		{ boneMapping.LeftShoulder, "LeftShoulder_r" },
+		{ boneMapping.LeftArm, "LeftArm_r" },
+		{ boneMapping.LeftForeArm, "LeftForeArm_r" },
+		{ boneMapping.LeftHand, "LeftHand_r" }
+	};
+
+	boneOrder = {
+		boneMapping.root,
+		boneMapping.LeftUpLeg,
+		boneMapping.LeftLeg,
+		boneMapping.LeftFoot,
+		boneMapping.RightUpLeg,
+		boneMapping.RightLeg,
+		boneMapping.RightFoot,
+		boneMapping.Spine,
+		boneMapping.Spine1,
+		boneMapping.Spine2,
+		boneMapping.Neck,
+		boneMapping.Head,
+		boneMapping.RightShoulder,
+		boneMapping.RightArm,
+		boneMapping.RightForeArm,
+		boneMapping.RightHand,
+		boneMapping.LeftShoulder,
+		boneMapping.LeftArm,
+		boneMapping.LeftForeArm,
+		boneMapping.LeftHand
+	};
 }
 
 UWidgetFinder::UWidgetFinder() {

@@ -37,11 +37,11 @@ void FUnrealLiveLinkRemapPluginModule::StartupModule()
 	);
 	PluginCommands->MapAction(
 		FRadicalPluginEditorCommands::Get().SubmenuTestCommand03,
-		FExecuteAction::CreateLambda([]() {UE_LOG(LogTemp, Warning, TEXT("SUBMENU 03 works!!!")); })
+		FExecuteAction::CreateLambda([]() {FPlatformProcess::LaunchURL(TEXT("www.radical.com"), NULL, NULL); })
 	);
 	PluginCommands->MapAction(
 		FRadicalPluginEditorCommands::Get().UserGuide,
-		FExecuteAction::CreateLambda([]() {UE_LOG(LogTemp, Warning, TEXT("UserGuide works!!!")); })
+		FExecuteAction::CreateLambda([]() {FPlatformProcess::LaunchURL(TEXT("radicalmotion.com/ue5-user-guide"), NULL, NULL); })
 	);
 
 	FLevelEditorModule& LevelEditorModule = FModuleManager::LoadModuleChecked<FLevelEditorModule>("LevelEditor");

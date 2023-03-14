@@ -11,6 +11,7 @@ class SIOConnectionManagerAdapter : public rad::live_client::IConnectionManager
 	sio::client _client{ sio::client(true, false) };
 	std::shared_ptr<sio::socket> _socket;
 public:
+	virtual ~SIOConnectionManagerAdapter(){}
 	void createSocket() override
 	{
 		_socket = _client.socket();

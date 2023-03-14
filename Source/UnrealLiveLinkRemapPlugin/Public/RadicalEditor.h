@@ -59,6 +59,31 @@ struct FDebugQuatOptions {
 	bool flipW;
 };
 
+USTRUCT(BlueprintType)
+struct FBoneMapping {
+	GENERATED_USTRUCT_BODY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) FName root { "Hips" };
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) FName LeftUpLeg { "LeftUpLeg" };
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) FName LeftLeg { "LeftLeg" };
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) FName LeftFoot { "LeftFoot" };
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) FName RightUpLeg { "RightUpLeg" };
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) FName RightLeg { "RightLeg" };
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) FName RightFoot { "RightFoot" };
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) FName Spine { "Spine" };
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) FName Spine1 { "Spine1" };
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) FName Spine2 { "Spine2" };
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) FName Neck { "Neck" };
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) FName Head { "Head" };
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) FName RightShoulder { "RightShoulder" };
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) FName RightArm { "RightArm" };
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) FName RightForeArm { "RightForeArm" };
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) FName RightHand { "RightHand" };
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) FName LeftShoulder { "LeftShoulder" };
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) FName LeftArm { "LeftArm" };
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) FName LeftForeArm { "LeftForeArm" };
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) FName LeftHand { "LeftHand" };
+};
+
 USTRUCT(BlueprintInternalUseOnly)
 struct UNREALLIVELINKREMAPPLUGIN_API FAnimNode_Radical : public FAnimNode_SkeletalControlBase {
 	GENERATED_USTRUCT_BODY()
@@ -81,10 +106,15 @@ struct UNREALLIVELINKREMAPPLUGIN_API FAnimNode_Radical : public FAnimNode_Skelet
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Links, meta = (PinShownByDefault))
 	FDebugQuatOptions quatOptions;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Links, meta = (PinShownByDefault))
+	FBoneMapping boneMapping;
+
 	FAnimNode_Radical();
 private:
 	virtual void InitializeBoneReferences(const FBoneContainer& requiredBones) override;
-	std::map<FName, int16> boneNameToId;
+	TMap<FName, int16> boneNameToId;
+	TMap<FName, std::string> boneToRadName;
+	std::array<FName, 20> boneOrder;
 };
 
 UCLASS(MinimalAPI)

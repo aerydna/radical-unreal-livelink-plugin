@@ -79,7 +79,7 @@ void FUnrealLiveLinkRemapPluginModule::ShutdownModule()
 void FUnrealLiveLinkRemapPluginModule::ButtonCreateWidget()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Test Button Create Widget"));
-
+	/*
 	UWorld* World = GEditor->GetEditorWorldContext().World();
 	if (!World)
 		return;
@@ -91,6 +91,7 @@ void FUnrealLiveLinkRemapPluginModule::ButtonCreateWidget()
 	UClass* BlueprintClass = UMGBP->GeneratedClass;
 	TSubclassOf<UEditorUtilityWidget> WidgetClass = BlueprintClass;
 	CreateWidget<UEditorUtilityWidget>(World, WidgetClass)->Run();
+	*/
 }
 
 void FUnrealLiveLinkRemapPluginModule::TestAction()

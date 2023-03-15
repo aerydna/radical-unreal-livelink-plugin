@@ -48,7 +48,10 @@ public class UnrealLiveLinkRemapPlugin : ModuleRules
 				"UMG",
 				"BlueprintGraph",
 				"UMGEditor",
-				"Projects"
+				"Projects",
+				"EngineSettings",
+				"DeveloperSettings",
+				//"AdvancedSessions",
 			}
 		);
 

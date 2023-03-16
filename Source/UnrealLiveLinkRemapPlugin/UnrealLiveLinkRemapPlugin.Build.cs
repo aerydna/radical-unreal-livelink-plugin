@@ -51,6 +51,7 @@ public class UnrealLiveLinkRemapPlugin : ModuleRules
 				"Projects",
 				"EngineSettings",
 				"DeveloperSettings",
+				"VaRest"
 				//"AdvancedSessions",
 			}
 		);

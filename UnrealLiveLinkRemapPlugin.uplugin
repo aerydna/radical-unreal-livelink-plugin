@@ -28,6 +28,10 @@
     {
       "Name": "LiveLink",
       "Enabled": true
-    }
+    },
+    {
+      "Name": "VaRest",
+      "Enabled": true
+    }  
   ]
 }

@@ -29,11 +29,11 @@ void FUnrealLiveLinkRemapPluginModule::StartupModule()
 	);
 	PluginCommands->MapAction(
 		FRadicalPluginEditorCommands::Get().RunRADiCALLiveWidget,
-		FExecuteAction::CreateLambda([]() {UE_LOG(LogTemp, Warning, TEXT("RunRadicalLiveWidget works!!!")); })
+		FExecuteAction::CreateLambda([]() {UE_LOG(LogTemp, Warning, TEXT("radical command")); })
 	);
 	PluginCommands->MapAction(
 		FRadicalPluginEditorCommands::Get().SubmenuTestCommand02,
-		FExecuteAction::CreateLambda([]() {UE_LOG(LogTemp, Warning, TEXT("SUBMENU 02 works!!!")); })
+		FExecuteAction::CreateLambda([]() {UE_LOG(LogTemp, Warning, TEXT("radical command")); })
 	);
 	PluginCommands->MapAction(
 		FRadicalPluginEditorCommands::Get().SubmenuTestCommand03,
@@ -96,7 +96,7 @@ void FUnrealLiveLinkRemapPluginModule::ButtonCreateWidget()
 
 void FUnrealLiveLinkRemapPluginModule::TestAction()
 {
-	UE_LOG(LogTemp, Warning, TEXT("It Works!!!"));
+	
 }
 
 void FUnrealLiveLinkRemapPluginModule::AddToolbarButton(FToolBarBuilder& Builder)
@@ -120,8 +120,8 @@ void FUnrealLiveLinkRemapPluginModule::AddMenuEntry(FMenuBuilder& MenuBuilder)
 	MenuBuilder.BeginSection("CustomMenu", TAttribute<FText>(FText::FromString("TestMenu")));
 	MenuBuilder.AddMenuEntry(FRadicalPluginEditorCommands::Get().MenuTestCommand);
 	MenuBuilder.AddSubMenu(
-		FText::FromString("My Submenu"),
-		FText::FromString("My submenu toolkit "),
+		FText::FromString("Radical Live"),
+		FText::FromString("Radical Live Submenu"),
 		FNewMenuDelegate::CreateRaw(this, &FUnrealLiveLinkRemapPluginModule::FillSubmenu)
 	);
 

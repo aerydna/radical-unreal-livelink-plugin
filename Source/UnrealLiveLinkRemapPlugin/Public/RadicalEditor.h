@@ -219,6 +219,13 @@ public:
 	}
 
 	UFUNCTION(BlueprintCallable, Category = "RadicalSubsystem")
+	bool isPlayerActive(FString id) {
+		return connected 
+			&& std::find(players.begin(), players.end(), TCHAR_TO_UTF8(*id)) != players.end()
+			&& getLastPose(id).isValid();
+	}
+
+	UFUNCTION(BlueprintCallable, Category = "RadicalSubsystem")
 	void connect(
 		const FString& _uriString,
 		const FString& _userAuthToken,

@@ -67,7 +67,6 @@ void FAnimNode_Radical::EvaluateSkeletalControl_AnyThread(FComponentSpacePoseCon
 
 	// get last pose for selected ID
 	// fill outBoneTransforms with that pose
-	UE_LOG(LogTemp, Warning, TEXT("Tick"));
 	if (playerID.IsEmpty())
 		return;
 

@@ -11,14 +11,14 @@
  * 
  */
 
-UCLASS(config = RadicalSettings, defaultconfig, meta = (DisplayName = "Websocket"))
+UCLASS(config = RadicalSettings, defaultconfig, meta = (DisplayName = "Radical Live"))
 class URadicalSettings : public UDeveloperSettings {
     GENERATED_BODY()
 
 public:
 
-    UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Dreamcatcher")
-        static const FString GetDoubleSetting() { return GetMutableDefault<URadicalSettings>()->_WebSocket; }
+    UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Radical Live")
+    static const FString GetWebsocketEndpoint() { return GetMutableDefault<URadicalSettings>()->_WebSocket; }
 
 private:
     // UDeveloperSettings implementations
@@ -27,6 +27,6 @@ private:
         return categoryName;
     }
 
-    UPROPERTY(EditAnywhere, config, Category = "Websocket", meta = (DisplayName = "Websocket", AllowPrivateAccess = true))
+    UPROPERTY(EditAnywhere, config, Category = "Radical Live", meta = (DisplayName = "Websocket Endpoint", AllowPrivateAccess = true))
         FString _WebSocket{ L"https://radicalmotion.com/wp-json/radapi/v4/user/liveauth" };
 };
